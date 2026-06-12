@@ -73,8 +73,10 @@
   :custom
   (org-directory          my/org-dir)
   (org-default-notes-file (expand-file-name "inbox.org" my/org-dir))
-  (org-agenda-files       (list my/org-dir))  ; adjust: add subdirs if needed
-
+  (org-agenda-files
+   (seq-filter
+    (lambda (f) (not (string-prefix-p my/roam-dir f)))
+    (directory-files-recursively my/org-dir "\\.org$")))
   ;; GTD todo states
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "WAITING(w@/!)" "|" "DONE(d!)" "CANCELLED(c@)")))
